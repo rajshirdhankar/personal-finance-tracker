@@ -159,7 +159,8 @@ function TransactionItem({ item, deleteTransaction, editTransaction }) {
                     color: item.type === "expense" ? "red" : "green",
                   }}
                 >
-                  ${item.amount.toLocaleString()}
+                  ₹
+{item.amount.toLocaleString()}
                 </span>
                 <span className="sub-text-small" style={{ color: "#666" }}>
                   {new Date(item.id).toLocaleDateString("en-US", {

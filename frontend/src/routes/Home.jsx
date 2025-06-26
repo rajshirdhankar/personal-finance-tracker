@@ -54,7 +54,8 @@ function Home({ transactions }) {
                       stats.total >= 0 ? { color: "green" } : { color: "red" }
                     }
                   >
-                    ${stats.total.toLocaleString()}
+                    ₹
+{stats.total.toLocaleString()}
                   </p>
                 </div>
                 <TrendingUp
@@ -71,7 +72,8 @@ function Home({ transactions }) {
                 <div>
                   <p className="sub-heading-small">Total Income</p>
                   <p className="sub-heading-medium" style={{ color: "green" }}>
-                    ${stats.income.toLocaleString()}
+                    ₹
+{stats.income.toLocaleString()}
                   </p>
                 </div>
                 <ArrowUpCircle
@@ -88,7 +90,8 @@ function Home({ transactions }) {
                 <div>
                   <p className="sub-heading-small">Total Expenses</p>
                   <p className="sub-heading-medium" style={{ color: "red" }}>
-                    ${stats.expenses.toLocaleString()}
+                    ₹
+{stats.expenses.toLocaleString()}
                   </p>
                 </div>
                 <ArrowDownCircle
@@ -149,7 +152,8 @@ function Home({ transactions }) {
                       fontWeight: "bold",
                     }}
                   >
-                    {transaction.type === "expense" ? "-" : "+"}$
+                    {transaction.type === "expense" ? "-" : "+"}₹
+
                     {Number(transaction.amount).toLocaleString()}
                   </p>
                 </div>
