@@ -42,7 +42,7 @@ function Dashboard({ transactions }) {
 
       const balance = income - expenses;
 
-      // Calculate spending by category
+      
       const categories = transactions.reduce((acc, t) => {
         const category = t.category.toLowerCase();
         if (!acc[category]) acc[category] = 0;

@@ -18,13 +18,13 @@ function TransactionList({ transactions = [], deleteTransaction, editTransaction
         ) : (
           transactions.map((item) => (
             <TransactionItem
-              key={item?._id || Date.now()}
+              key={item._id}
               item={{
-                id: item?._id || Date.now(),
-                amount: item?.amount || 0,
-                description: item?.description || "",
-                type: item?.type || "expense",
-                category: item?.category || "General",
+                _id: item._id, 
+                amount: item.amount || 0,
+                description: item.description || "",
+                type: item.type || "expense",
+                category: item.category || "General",
               }}
               deleteTransaction={deleteTransaction}
               editTransaction={editTransaction}
@@ -38,10 +38,10 @@ function TransactionList({ transactions = [], deleteTransaction, editTransaction
 
 function TransactionItem({ item, deleteTransaction, editTransaction }) {
   const [isEditing, setIsEditing] = useState(false);
-  const [amount, setAmount] = useState(item.amount || 0);
-  const [description, setDescription] = useState(item.description || "");
-  const [type, setType] = useState(item.type || "expense");
-  const [category, setCategory] = useState(item.category || "General");
+  const [amount, setAmount] = useState(item.amount);
+  const [description, setDescription] = useState(item.description);
+  const [type, setType] = useState(item.type);
+  const [category, setCategory] = useState(item.category);
 
   const handleEdit = (e) => {
     e.preventDefault();
@@ -54,11 +54,11 @@ function TransactionItem({ item, deleteTransaction, editTransaction }) {
     setIsEditing(false);
   };
 
+  const transactionDate = item._id ? new Date(parseInt(item._id.toString().substring(0, 8), 16) * 1000) : new Date();
   const safeAmount = parseFloat(amount) || 0;
-  const transactionDate = item._id ? new Date(item._id) : new Date();
 
   return (
-    <Card className={`transaction-card ₹{type === "expense" ? "expense" : "income"}`}>
+    <Card className={`transaction-card ${type === "expense" ? "expense" : "income"}`}>
       <CardContent className="p-6">
         {isEditing ? (
           <form onSubmit={handleEdit} className="main-container">
@@ -87,8 +87,8 @@ function TransactionItem({ item, deleteTransaction, editTransaction }) {
 
               <div>
                 <label>Type</label>
-                <select 
-                  value={type} 
+                <select
+                  value={type}
                   onChange={(e) => setType(e.target.value)}
                   className="w-full p-2 border rounded"
                 >
@@ -118,11 +118,7 @@ function TransactionItem({ item, deleteTransaction, editTransaction }) {
               <Button type="submit" variant="default">
                 <Save className="sub-container-icon-medium" /> Save
               </Button>
-              <Button
-                type="button"
-                onClick={() => setIsEditing(false)}
-                variant="outline"
-              >
+              <Button type="button" onClick={() => setIsEditing(false)} variant="outline">
                 <X className="sub-container-icon-medium" /> Cancel
               </Button>
             </div>
@@ -133,23 +129,16 @@ function TransactionItem({ item, deleteTransaction, editTransaction }) {
               <div className="flex gap-2 items-center">
                 <span
                   className="sub-text"
-                  style={{
-                    color: type === "expense" ? "red" : "green",
-                    fontWeight: 700,
-                  }}
+                  style={{ color: type === "expense" ? "red" : "green", fontWeight: 700 }}
                 >
                   {type === "expense" ? "Expense" : "Income"}
                 </span>
-                <h3 className="sub-text font-bold">
-                  {description || "No description"}
-                </h3>
+                <h3 className="sub-text font-bold">{description || "No description"}</h3>
               </div>
               <div className="flex gap-4 items-center mt-1">
                 <span
                   className="sub-heading-small"
-                  style={{
-                    color: type === "expense" ? "red" : "green",
-                  }}
+                  style={{ color: type === "expense" ? "red" : "green" }}
                 >
                   ₹{safeAmount.toLocaleString(undefined, { minimumFractionDigits: 2 })}
                 </span>
@@ -158,8 +147,7 @@ function TransactionItem({ item, deleteTransaction, editTransaction }) {
                     month: "short",
                     day: "numeric",
                     year: "numeric",
-                  })}
-                  {" • "}
+                  })}{" • "}
                   {transactionDate.toLocaleTimeString("en-US", {
                     hour: "numeric",
                     minute: "2-digit",
@@ -174,7 +162,7 @@ function TransactionItem({ item, deleteTransaction, editTransaction }) {
                 <Edit2 className="sub-container-icon-medium" />
               </Button>
               <Button
-                onClick={() => deleteTransaction(item._id)}
+                onClick={() => deleteTransaction(item._id)} 
                 variant="outline"
                 className="hover:bg-red-50"
               >

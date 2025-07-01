@@ -6,8 +6,8 @@ import { Input } from "@/components/ui/input";
 function TransactionForm({ addTransaction }) {
   const [amount, setAmount] = useState("");
   const [description, setDescription] = useState("");
-  const [type, setType] = useState("income"); // Default to income
-  const [category, setCategory] = useState("General"); // Default to General
+  const [type, setType] = useState("income"); 
+  const [category, setCategory] = useState("General"); 
   const [customCategories, setCustomCategories] = useState([]);
   const [newCategory, setNewCategory] = useState("");
 
@@ -17,7 +17,7 @@ function TransactionForm({ addTransaction }) {
     setCustomCategories(storedCategories);
   }, []);
 
-  // Saving custom categories to localStorage
+ 
   useEffect(() => {
     localStorage.setItem("customCategories", JSON.stringify(customCategories));
   }, [customCategories]);
@@ -35,8 +35,8 @@ function TransactionForm({ addTransaction }) {
       });
       setAmount(0);
       setDescription("");
-      setType("income"); // reset to income after adding
-      setCategory("General"); // reset to General after adding
+      setType("income");
+      setCategory("General"); 
     }
   };
 
@@ -120,7 +120,7 @@ function TransactionForm({ addTransaction }) {
             </div>
           </div>
 
-          {/* Section to add new custom category */}
+          
           <div className="flex gap-2">
             <Input
               id="newCategory"
