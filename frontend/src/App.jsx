@@ -6,13 +6,11 @@ import Dashboard from "./routes/Dashboard";
 import Home from "./routes/Home";
 import Transactions from "./routes/Transactions";
 
-// ✅ Set backend URL dynamically from .env
 const BASE_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:5000";
 
 function App() {
   const [transactions, setTransactions] = useState([]);
 
-  // ✅ Fetch transactions from backend
   useEffect(() => {
     fetch(`${BASE_URL}/transactions`)
       .then((res) => res.json())
@@ -20,7 +18,7 @@ function App() {
       .catch((err) => console.error("Error fetching transactions:", err));
   }, []);
 
-  // ✅ Add transaction
+
   const addTransaction = async (tx) => {
     try {
       const res = await fetch(`${BASE_URL}/transactions`, {
@@ -35,7 +33,7 @@ function App() {
     }
   };
 
-  // ✅ Delete transaction
+
   const deleteTransaction = async (_id) => {
     try {
       await fetch(`${BASE_URL}/transactions/${_id}`, {
@@ -47,7 +45,7 @@ function App() {
     }
   };
 
-  // ✅ Edit transaction
+
   const editTransaction = async (_id, tx) => {
     try {
       await fetch(`${BASE_URL}/transactions/${_id}`, {
