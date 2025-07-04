@@ -47,7 +47,7 @@ function App() {
     }
   };
 
-  // ✅ Edit transaction
+
   const editTransaction = async (_id, tx) => {
     try {
       await fetch(`${BASE_URL}/transactions/${_id}`, {
