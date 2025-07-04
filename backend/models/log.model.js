@@ -1,9 +1,9 @@
 const mongoose = require("mongoose");
 
 const logSchema = new mongoose.Schema({
-  action: String,           // ADD, EDIT, DELETE
-  transactionId: String,    // Related transaction _id
-  data: Object,             // The full transaction object
+  action: String,           
+  transactionId: String,    
+  data: Object,             
   timestamp: { type: Date, default: Date.now }
 });
 

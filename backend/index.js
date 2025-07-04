@@ -7,13 +7,13 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// MongoDB Connection
+
 mongoose
   .connect(process.env.MONGODB_URI, { dbName: "expense-tracker" })
   .then(() => console.log("Connected to MongoDB"))
   .catch((err) => console.error("MongoDB connection error:", err));
 
-// Schemas
+
 const transactionSchema = new mongoose.Schema({
   id: Number,
   amount: Number,
@@ -35,7 +35,7 @@ const logSchema = new mongoose.Schema({
   action: String,
   transactionId: String,
   data: Object,
-  timestamp: String, // store as readable IST string
+  timestamp: String, 
 });
 
 const Transaction = mongoose.model("Transaction", transactionSchema);
@@ -116,7 +116,7 @@ app.delete("/transactions/:id", async (req, res) => {
   }
 });
 
-// Server
+
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
