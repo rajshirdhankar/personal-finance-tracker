@@ -120,6 +120,7 @@
 body {
   margin: 0;
   padding: 0;
+  background-color: #f4f4f5;
 }
 
 /*********** Containers ***********/
@@ -127,6 +128,9 @@ body {
   display: flex;
   flex-direction: column;
   gap: 20px;
+  max-width: 1100px;
+  margin: 0 auto 40px auto;
+  padding: 0 16px;
 }
 
 .grid-container {
@@ -220,12 +224,9 @@ label {
   border-bottom: 1px solid #ffae00;
 }
 
-/*********** Card ***********/
 .card {
-  border: 1px solid #ccc;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  padding: 20;
-  /* background-image: linear-gradient(to bottom right, #f0f0f0, #ffffff); */
+  padding: 2em;
+  border-radius: 18px;
 }
 
 .recent-transactions-card {
@@ -233,6 +234,15 @@ label {
   border-radius: 0.5rem;
   background-color: #efefef;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Consistent amount colors */
+.amount-income {
+  color: #16a34a; /* green-600 */
+}
+
+.amount-expense {
+  color: #dc2626; /* red-600 */
 }
 
 /* Inputs */
@@ -255,4 +265,31 @@ select {
 
 .trash-button:hover {
   color: rgb(197, 0, 0);
+}
+
+/* Buttons */
+button {
+  padding: 0.5rem 1rem;
+  border-radius: 0.375rem;
+  border: none;
+  background-color: #111827;
+  color: #ffffff;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: background-color 0.15s ease, transform 0.1s ease;
+}
+
+button:hover {
+  background-color: #020617;
+  transform: translateY(-1px);
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
 }

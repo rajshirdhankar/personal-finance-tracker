@@ -10,23 +10,19 @@ function Dashboard({ transactions }) {
     balance: 0,
     categories: {},
     recentTransactions: [],
-    trend: { income: 0, expenses: 0 },
   });
 
   useEffect(() => {
     const calculateStats = () => {
       if (transactions.length === 0) {
-        setStats((prev) => ({
-          ...prev,
+        setStats({
           total: 0,
           income: 0,
           expenses: 0,
           balance: 0,
           categories: {},
           recentTransactions: [],
-          trend: { income: 0, expenses: 0 },
-        }));
-
+        });
         return;
       }
 
@@ -54,40 +50,6 @@ function Dashboard({ transactions }) {
       const recentTransactions = transactions
         .sort((a, b) => b.id - a.id)
         .slice(0, 5);
-
-      // Calculate month-over-month trend
-      const currentDate = new Date();
-      const currentMonth = currentDate.getMonth();
-      const lastMonth = currentMonth === 0 ? 11 : currentMonth - 1;
-
-      const thisMonthTransactions = transactions.filter(
-        (t) => new Date(t.id).getMonth() === currentMonth
-      );
-      const lastMonthTransactions = transactions.filter(
-        (t) => new Date(t.id).getMonth() === lastMonth
-      );
-
-      const trend = {
-        income:
-          (thisMonthTransactions
-            .filter((t) => t.type === "income")
-            .reduce((sum, t) => sum + Number(t.amount), 0) /
-            (lastMonthTransactions
-              .filter((t) => t.type === "income")
-              .reduce((sum, t) => sum + Number(t.amount), 0) || 1) -
-            1) *
-          100,
-        expenses:
-          (thisMonthTransactions
-            .filter((t) => t.type === "expense")
-            .reduce((sum, t) => sum + Number(t.amount), 0) /
-            (lastMonthTransactions
-              .filter((t) => t.type === "expense")
-              .reduce((sum, t) => sum + Number(t.amount), 0) || 1) -
-            1) *
-          100,
-      };
-
       setStats({
         total,
         income,
@@ -95,7 +57,6 @@ function Dashboard({ transactions }) {
         balance,
         categories,
         recentTransactions,
-        trend,
       });
     };
 
@@ -122,7 +83,7 @@ function Dashboard({ transactions }) {
             <span className="sub-text" style={{ fontWeight: 600 }}>
               Total Balance
             </span>
-            <TrendingUp className="sub-container-icon-medium" color="#666" />
+            <PieChart className="sub-container-icon-medium" color="#666" />
           </CardHeader>
           <CardContent>
             <div className="sub-heading-medium">
@@ -143,19 +104,12 @@ function Dashboard({ transactions }) {
             <span className="sub-text" style={{ fontWeight: 600 }}>
               Income
             </span>
-            {stats.trend.income > 0 ? (
-              <TrendingUp className="sub-container-icon-medium" color="green" />
-            ) : (
-              <TrendingDown className="sub-container-icon-medium" color="red" />
-            )}
+            <TrendingUp className="sub-container-icon-medium" color="green" />
           </CardHeader>
           <CardContent>
-            <div className="sub-heading-medium text-green-500" color="green">
+            <div className="sub-heading-medium amount-income">
               ₹{stats.income.toLocaleString()}
             </div>
-            <p className="text-muted-foreground">
-              {stats.trend.income.toFixed(1)}% from last month
-            </p>
           </CardContent>
         </Card>
 
@@ -168,19 +122,12 @@ function Dashboard({ transactions }) {
             <span className="sub-text" style={{ fontWeight: 600 }}>
               Expenses
             </span>
-            {stats.trend.expenses > 0 ? (
-              <TrendingUp className="sub-container-icon-medium" color="green" />
-            ) : (
-              <TrendingDown className="sub-container-icon-medium" color="red" />
-            )}
+            <TrendingDown className="sub-container-icon-medium" color="red" />
           </CardHeader>
           <CardContent>
-            <div className="sub-heading-medium text-red-500">
+            <div className="sub-heading-medium amount-expense">
               ₹{stats.expenses.toLocaleString()}
             </div>
-            <p className="text-muted-foreground">
-              {stats.trend.expenses.toFixed(1)}% from last month
-            </p>
           </CardContent>
         </Card>
 
@@ -239,10 +186,10 @@ function Dashboard({ transactions }) {
                       </p>
                     </div>
                     <div
-                      className={`sub-text style={{fontWeight: 600}} ₹{
+                      className={`sub-text font-semibold ${
                         transaction.type === "expense"
-                          ? "text-red-500"
-                          : "text-green-500"
+                          ? "amount-expense"
+                          : "amount-income"
                       }`}
                     >
                       {transaction.type === "expense" ? "-" : "+"}₹
@@ -292,7 +239,7 @@ function Dashboard({ transactions }) {
                           <div
                             className="h-full bg-blue-500"
                             style={{
-                              width: `₹{(amount / stats.expenses) * 100}%`,
+                              width: `${(amount / stats.expenses) * 100}%`,
                             }}
                           ></div>
                         </div>

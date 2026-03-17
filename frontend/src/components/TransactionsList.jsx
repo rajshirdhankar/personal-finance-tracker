@@ -6,7 +6,7 @@ import { useState } from "react";
 
 function TransactionList({ transactions = [], deleteTransaction, editTransaction }) {
   return (
-    <Card className="main-container">
+    <Card className="card">
       <CardHeader>
         <h2 className="sub-heading-medium">Recent Transactions</h2>
       </CardHeader>
@@ -16,20 +16,23 @@ function TransactionList({ transactions = [], deleteTransaction, editTransaction
             No transactions yet. Add your first transaction above.
           </div>
         ) : (
-          transactions.map((item) => (
-            <TransactionItem
-              key={item._id}
-              item={{
-                _id: item._id, 
-                amount: item.amount || 0,
-                description: item.description || "",
-                type: item.type || "expense",
-                category: item.category || "General",
-              }}
-              deleteTransaction={deleteTransaction}
-              editTransaction={editTransaction}
-            />
-          ))
+          <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+            {transactions.map((item) => (
+              <TransactionItem
+                key={item._id}
+                item={{
+                  _id: item._id,
+                  id: item.id,
+                  amount: item.amount || 0,
+                  description: item.description || "",
+                  type: item.type || "expense",
+                  category: item.category || "General",
+                }}
+                deleteTransaction={deleteTransaction}
+                editTransaction={editTransaction}
+              />
+            ))}
+          </div>
         )}
       </CardContent>
     </Card>
@@ -54,7 +57,9 @@ function TransactionItem({ item, deleteTransaction, editTransaction }) {
     setIsEditing(false);
   };
 
-  const transactionDate = item._id ? new Date(parseInt(item._id.toString().substring(0, 8), 16) * 1000) : new Date();
+  const transactionDate = item.id
+    ? new Date(item.id)
+    : new Date();
   const safeAmount = parseFloat(amount) || 0;
 
   return (
@@ -128,8 +133,10 @@ function TransactionItem({ item, deleteTransaction, editTransaction }) {
             <div>
               <div className="flex gap-2 items-center">
                 <span
-                  className="sub-text"
-                  style={{ color: type === "expense" ? "red" : "green", fontWeight: 700 }}
+                  className={`sub-text ${
+                    type === "expense" ? "amount-expense" : "amount-income"
+                  }`}
+                  style={{ fontWeight: 700 }}
                 >
                   {type === "expense" ? "Expense" : "Income"}
                 </span>
@@ -137,8 +144,9 @@ function TransactionItem({ item, deleteTransaction, editTransaction }) {
               </div>
               <div className="flex gap-4 items-center mt-1">
                 <span
-                  className="sub-heading-small"
-                  style={{ color: type === "expense" ? "red" : "green" }}
+                  className={`sub-heading-small ${
+                    type === "expense" ? "amount-expense" : "amount-income"
+                  }`}
                 >
                   ₹{safeAmount.toLocaleString(undefined, { minimumFractionDigits: 2 })}
                 </span>

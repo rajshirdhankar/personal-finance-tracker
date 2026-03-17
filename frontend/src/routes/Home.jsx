@@ -49,13 +49,12 @@ function Home({ transactions }) {
                 <div>
                   <p className="sub-heading-small">Total Balance</p>
                   <p
-                    className="sub-heading-medium"
-                    style={
-                      stats.total >= 0 ? { color: "green" } : { color: "red" }
-                    }
+                    className={`sub-heading-medium ${
+                      stats.total >= 0 ? "amount-income" : "amount-expense"
+                    }`}
                   >
                     ₹
-{stats.total.toLocaleString()}
+                    {stats.total.toLocaleString()}
                   </p>
                 </div>
                 <TrendingUp
@@ -71,9 +70,9 @@ function Home({ transactions }) {
               <div className="sub-container">
                 <div>
                   <p className="sub-heading-small">Total Income</p>
-                  <p className="sub-heading-medium" style={{ color: "green" }}>
+                  <p className="sub-heading-medium amount-income">
                     ₹
-{stats.income.toLocaleString()}
+                    {stats.income.toLocaleString()}
                   </p>
                 </div>
                 <ArrowUpCircle
@@ -89,9 +88,9 @@ function Home({ transactions }) {
               <div className="sub-container">
                 <div>
                   <p className="sub-heading-small">Total Expenses</p>
-                  <p className="sub-heading-medium" style={{ color: "red" }}>
+                  <p className="sub-heading-medium amount-expense">
                     ₹
-{stats.expenses.toLocaleString()}
+                    {stats.expenses.toLocaleString()}
                   </p>
                 </div>
                 <ArrowDownCircle
@@ -147,13 +146,13 @@ function Home({ transactions }) {
                     </p>
                   </div>
                   <p
-                    style={{
-                      color: transaction.type === "expense" ? "red" : "green",
-                      fontWeight: "bold",
-                    }}
+                    className={`font-bold ${
+                      transaction.type === "expense"
+                        ? "amount-expense"
+                        : "amount-income"
+                    }`}
                   >
                     {transaction.type === "expense" ? "-" : "+"}₹
-
                     {Number(transaction.amount).toLocaleString()}
                   </p>
                 </div>

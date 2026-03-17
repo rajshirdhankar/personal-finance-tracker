@@ -50,7 +50,7 @@ function TransactionForm({ addTransaction }) {
   };
 
   return (
-    <Card className="">
+    <Card className="card">
       <CardHeader className="sub-heading-medium">
         Add New Transaction
       </CardHeader>
@@ -129,7 +129,7 @@ function TransactionForm({ addTransaction }) {
               onChange={(e) => setNewCategory(e.target.value)}
               placeholder="Add custom category..."
             />
-            <Button onClick={handleAddCategory} disabled={!newCategory.trim()}>
+            <Button type="button" onClick={handleAddCategory} disabled={!newCategory.trim()}>
               Add
             </Button>
           </div>

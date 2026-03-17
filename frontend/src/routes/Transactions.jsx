@@ -1,10 +1,6 @@
-import React from 'react';
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import TransactionForm from '@/components/TransactionForm';
 import TransactionsList from '@/components/TransactionsList';
-import {Card,
-  CardContent,
-  CardFooter,
-  CardHeader,} from '@/components/ui/card';
 function Transactions({
   transactions,
   addTransaction,
@@ -13,15 +9,28 @@ function Transactions({
 }) {
   const balance = transactions.reduce((acc, item) => {
     return item.type === "expense"
-    ? acc - Number(item.amount)
-    : acc + Number(item.amount);
-  },0);
+      ? acc - Number(item.amount)
+      : acc + Number(item.amount);
+  }, 0);
+
+  const balanceIsPositive = balance >= 0;
+
   return (
-  <div>
-    <Card>
-      <CardHeader>Current Balance</CardHeader>
-      <CardContent>{balance}  </CardContent>
-      </Card>
+  <div className="main-container">
+    <Card className="card">
+      <CardHeader>
+        <h2 className="sub-heading-medium">Current Balance</h2>
+      </CardHeader>
+      <CardContent>
+        <span
+          className={`sub-heading-large ${
+            balanceIsPositive ? "amount-income" : "amount-expense"
+          }`}
+        >
+          ₹{balance.toLocaleString()}
+        </span>
+      </CardContent>
+    </Card>
     <TransactionForm addTransaction={addTransaction} />
     <TransactionsList transactions={transactions}  
     deleteTransaction={deleteTransaction}
